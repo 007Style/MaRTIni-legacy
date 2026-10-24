@@ -1,0 +1,264 @@
+import java.lang.*;
+import java.lang.String;
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.event.ItemListener;
+import java.applet.*;
+import javax.swing.*;
+import java.io.*;
+import java.net.*;
+
+
+
+import java.applet.AudioClip;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.awt.GridBagLayout;
+
+
+
+
+
+
+
+
+public class M extends Frame implements ActionListener
+{
+    ServerSocket ss;
+    Socket s, so;
+
+    public void New_Action(ActionEvent event)
+    {
+  	  new AboutDialog(this);
+    }
+
+    public void Help_Action(ActionEvent event)
+    {
+	    help haha = new help();
+    }
+
+    public void Quit_Action(ActionEvent event)
+    {
+      this.dispose();
+	    System.exit(0);
+    }
+
+    class ActionListener1 implements ActionListener
+    {
+	    public void actionPerformed(ActionEvent event)
+	    {
+	      String str = event.getActionCommand();
+        if (str.equals("About"))
+		      New_Action(event);
+	      else if (str.equals("Help"))
+		      Help_Action(event);
+	      else if (str.equals("Exit"))
+		      Quit_Action(event);
+
+	    }
+    }
+
+    public M()
+    {
+      TextField tf1, tf2;
+
+      image = getToolkit().getImage("martinibk.jpg");
+      setLayout(new GridBagLayout());
+	    GridBagConstraints gbc = new GridBagConstraints();
+
+      Panel panelbut = new Panel();
+      Panel paneltxtfld = new Panel();
+
+      gbc.gridwidth = GridBagConstraints.REMAINDER;
+	    gbc.fill = GridBagConstraints.HORIZONTAL;
+	    gbc.weightx = 1.0;
+
+	    add(panelbut, gbc);
+
+	    gbc.fill = GridBagConstraints.BOTH;
+	    gbc.weighty = 1.0;
+
+	    add(paneltxtfld, gbc);
+
+	    gbc.fill = GridBagConstraints.BOTH;
+	    gbc.weightx = 1.0;
+	    gbc.weighty = 1.0;
+
+
+
+
+
+      gbc.gridwidth = 1;
+      Label l1 = new Label("IP Address:", Label.RIGHT);
+      paneltxtfld.add(l1);
+
+      gbc.gridwidth = GridBagConstraints.REMAINDER;
+
+      tf1 = new TextField(16);
+      paneltxtfld.add(tf1, gbc);
+
+      Label l2 = new Label(" ", Label.RIGHT);
+      paneltxtfld.add(l2);
+      //Checkbox check1 = new Checkbox("< Client >");
+      //gbc.gridwidth = GridBagConstraints.REMAINDER;
+      //paneltxtfld.add(check1);//, gbc);
+      //check1.setState(true);
+      //check1.addItemListener(this);
+
+      Checkbox check2 = new Checkbox("< Server >");
+      gbc.gridwidth = GridBagConstraints.REMAINDER;
+      paneltxtfld.add(check2);//, gbc);
+      //check2.addItemListener(this);
+
+      Button Connect = new Button ("Connect");
+      paneltxtfld.add(Connect);
+      Connect.addActionListener(this);
+
+      Button Disconnect = new Button ("Disconnect");
+      paneltxtfld.add(Disconnect);
+      Disconnect.addActionListener(this);
+
+      PicturePerfect pp = new PicturePerfect();
+	    add(pp, gbc);
+
+      Button Start = new Button(" -                                     - ---- < < < <  < TALK >  > > > > ---- -                                     - ");
+      Font    font = new Font ("Times", Font.BOLD, 14);
+	    Color   numberColor = new Color (176, 16, 45);
+	    setFont (font);
+
+	    panelbut.add(Start);
+	    Start.setBackground(numberColor);
+	    Start.addActionListener(this);
+
+      setTitle ("ipKangaroo");
+
+	    setBackground(Color.white);
+
+	    MenuBar menuBar = new MenuBar();
+	    Menu fileMenu = new Menu(" File ");
+	    fileMenu.add(new MenuItem("About"));
+	    fileMenu.add(new MenuItem("Help"));
+      fileMenu.add(new MenuItem("-"));
+	    fileMenu.add(new MenuItem("Exit"));
+	    menuBar.add (fileMenu);
+	    setMenuBar (menuBar);
+
+      WindowListener1 lWindow = new WindowListener1();
+	    addWindowListener(lWindow);
+
+	    ActionListener1 lAction = new ActionListener1();
+	    fileMenu.addActionListener(lAction);
+
+      pack();
+	    setResizable(false);
+	    show ();
+    }
+
+    public void actionPerformed(ActionEvent event)
+    {
+
+    if(event.getActionCommand() == " -                                     - ---- < < < <  < TALK >  > > > > ---- -                                     - ")
+	    {
+        try
+        {
+        URL url = new URL("bottle-open.wav");
+        AudioClip clip = Applet.newAudioClip(url);
+        clip.play();
+         }
+         catch(Exception e)
+         {
+          System.out.println(e);
+          }
+        //String playFile = "bottle-open.wav";
+        //AudioClip clip;
+        //clip = getAudioClip(http://192.168.0.2,playFile);
+        //clip.play();
+	    }
+
+	  if(event.getActionCommand() == "Connect")
+	    {
+    System.out.println("maybe we'll connect.....");
+		System.out.println(" ");
+		int port = 2222;
+    String host = "128.6.201.46";
+    byte[] cmd = ("hi"+"\n").getBytes();
+    try
+    {
+      s = new Socket(host, port);
+	    System.out.println("Connected");
+      OutputStream os = s.getOutputStream();
+      BufferedReader is = new BufferedReader( new InputStreamReader(s.getInputStream()));
+      os.write(cmd, 0, cmd.length);
+	    String response = is.readLine();
+	    System.out.println(response);
+    }
+    catch (UnknownHostException e)
+	  {
+		  System.err.println("unknown host: " + host);
+		  System.exit(1);
+    }
+    catch (IOException e)
+	  {
+		  System.out.println(e.getMessage());
+		  e.printStackTrace();
+    }
+  }
+
+	if(event.getActionCommand() == "Disconnect")
+	    {
+        System.out.println("Doing the deed yo");
+    		int port = 2222;
+        try
+        {
+          ss = new ServerSocket(port, 5);
+          System.out.println("waiting for a connection on port " + port);
+          so = ss.accept();
+          System.out.println("got a connection from " + so.getInetAddress());
+          BufferedReader in = new BufferedReader(new InputStreamReader(so.getInputStream()));
+          OutputStream os = so.getOutputStream();
+        }
+        catch (java.io.IOException e)
+        {
+          System.out.println(e.getMessage());
+          e.printStackTrace();
+        }
+      }
+  }
+
+  class WindowListener1 extends WindowAdapter
+  {
+	  public void windowClosing(WindowEvent event)
+	  {
+	    Window win = event.getWindow();
+	    win.setVisible(false);
+	    win.dispose();
+	    System.exit(0);
+	  }
+  }
+
+  Image image;
+  class PicturePerfect extends Component
+  {
+	  public void paint(Graphics g)
+	  {
+	      g = getGraphics();
+	      g.drawImage(image ,0 ,0 , this);
+	      Dimension d = getSize();
+	      g.drawRect(0 ,0 ,d.width-1, d.height-1);
+	  }
+
+	  public Dimension getPreferredSize()
+    {
+	    return new Dimension(640, 480);
+	  }
+  }
+
+  public static void main (String args[])
+  {
+	  M m = new M ();
+  }
+}

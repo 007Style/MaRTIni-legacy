@@ -1,0 +1,159 @@
+import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import java.applet.Applet; 
+
+public class MaRTIni extends Applet
+{
+  public void init()
+  {
+    setLayout(new BorderLayout());
+    buttons b = new buttons();
+    add(b);
+    
+    //instantiat classes here and add them.
+  }
+  
+  public static void main (String args[])
+  {
+    Frame f = new Frame("MaRTIni");
+    MaRTIni martini = new MaRTIni();
+    
+    martini.init();
+    
+    f.setSize(640, 480);
+    f.add("Center", martini);
+    f.show();
+  }
+  public void New_Action(ActionEvent event)
+  {
+    MaRTIni martini = new MaRTIni();
+  }
+  
+  public void Quit_Action(ActionEvent event)
+  {
+    System.exit(0);
+  }
+  
+  class ActionListener1 implements ActionListener
+  {
+    public void actionPerformed(ActionEvent event)
+    {
+      String str = event.getActionCommand();
+      if(str.equals("New"))
+	New_Action(event);
+      else if(str.equals("Quit"))
+	Quit_Action(event);
+    }
+  }
+  
+  public MaRTIni()
+  {
+    MenuBar menuBar = new MenuBar();
+    Menu fileMenu = new Menu("File");
+    fileMenu.add(new MenuItem("Open"));
+    fileMenu.add(new MenuItem("New"));
+    fileMenu.add(new MenuItem("Close"));
+    fileMenu.add(new MenuItem("-"));
+    fileMenu.add(new MenuItem("Quit"));
+    menuBar.add (fileMenu);
+    
+    Menu editMenu = new Menu("Edit");
+    editMenu.add(new MenuItem("Undo"));
+    editMenu.add(new MenuItem("Cut"));
+    editMenu.add(new MenuItem("Copy"));
+    editMenu.add(new MenuItem("Paste"));
+    editMenu.add(new MenuItem("-"));
+    editMenu.add(new MenuItem("Clear"));
+    menuBar.add (editMenu);
+    //setMenuBar (menuBar);
+    
+    ActionListener1 lAction = new ActionListener1();
+    fileMenu.addActionListener(lAction);
+    
+    //  MouseListener1 lmouse = new MouseListener1();
+    //  	addMouseListener(lMouse);
+    
+    //  	MouseMotionListener1 lMouseMotion = new
+    //  	    MouseMotionListener1();
+    //  	addMouseMotionListener(lMouseMotion);
+    
+    //  	ActionListener1 lAction = new ActionListener1();
+    //  	fileMenu.addActionListener(lAction);
+    
+    //  	setSize(410,430);
+    //  	show();
+  }
+  
+}
+
+
+
+
+class buttons extends Panel
+implements ActionListener
+{
+  Button Quit;
+  Button Start;
+  
+  buttons()
+  {
+    Font    font = new Font ("Times", Font.BOLD, 14);
+    Color   functionColor = new Color (255, 255, 0);
+    Color   numberColor = new Color (0, 255, 255);
+    Color   equalsColor = new Color (0, 255, 0);
+    setFont (font);
+
+    Start = new Button ("Start");
+    add (Start);
+    Start.setBackground (numberColor);
+    Start.addActionListener(this);
+
+    Quit = new Button ("Quit");
+    add (Quit);
+    Quit.setBackground (numberColor);
+    Quit.addActionListener(this);
+  }
+
+  public void actionPerformed(ActionEvent event)
+  {
+    Object object = event.getSource();
+
+    if(object == Quit)
+    {
+      System.exit(0);
+    }
+
+    if(object == Start)
+    {
+      setBackground(Color.red);
+    }
+
+  }
+}
+
+
+
+  /*public MaRTIni()
+  {
+    setBackground(Color.gray);
+
+    MenuBar menuBar = new MenuBar();
+    Menu fileMenu = new Menu("File");
+    fileMenu.add(new MenuItem("Open"));
+    fileMenu.add(new MenuItem("New"));
+    fileMenu.add(new MenuItem("Close"));
+    fileMenu.add(new MenuItem("-"));
+    fileMenu.add(new MenuItem("Quit"));
+    menuBar.add (fileMenu);
+    Menu editMenu = new Menu("Edit");
+    editMenu.add(new MenuItem("Undo"));
+    editMenu.add(new MenuItem("Cut"));
+    editMenu.add(new MenuItem("Copy"));
+    editMenu.add(new MenuItem("Paste"));
+    editMenu.add(new MenuItem("-"));
+    editMenu.add(new MenuItem("Clear"));
+    menuBar.add (editMenu);
+    setMenuBar (menuBar);
+  }*/

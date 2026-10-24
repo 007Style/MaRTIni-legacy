@@ -1,0 +1,58 @@
+package datum.viewer;
+
+import java.awt.*;
+import javax.swing.*;
+
+public class ViewerDialog extends JDialog {
+	
+	public ViewerDialog(String title) {
+		super();
+		setTitle(title);
+		init();
+	}
+
+	public ViewerDialog(Dialog owner, String title, boolean modal) {
+		super(owner, title, modal);
+		init();
+	}
+		
+	public ViewerDialog(Frame owner, String title, boolean modal) {
+		super(owner, title, modal);
+		init();
+	}
+
+	void init() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	
+	public void show() {
+		pack();
+		if (isModal())
+			setLocationRelativeTo(getOwner());
+		else
+			WindowManager.addWindow(this, getTitle());
+		super.show();
+	}
+	
+	public void hide() {
+		if (WindowManager.isMasterWindow(this)) {
+			if (JOptionPane.showConfirmDialog(this, 
+					"Are you sure you want to exit?", "Exit " + getTitle(), 
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+				System.exit(0);
+		} else {
+			if (!isModal())
+				WindowManager.removeWindow(getTitle());
+			super.hide();
+			getOwner().toFront();
+		}
+	}
+	
+	public void dispose() {
+		if (!WindowManager.isMasterWindow(this))
+			super.dispose();
+	}
+	
+}
+

@@ -1,0 +1,301 @@
+import java.lang.*;
+import java.lang.String;
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import javax.swing.*;
+
+
+public class M extends Frame implements ActionListener
+{
+  
+  public void New_Action(ActionEvent event)
+  {
+    M m = new M();
+  }
+
+  public void Open_Action(ActionEvent event)
+  {
+    FileDialog fileDialog = new FileDialog(this, "Open Sim", FileDialog.LOAD);
+    fileDialog.show();
+    String OpenFile = fileDialog.getFile();
+  }
+
+  public void Save_Action(ActionEvent event)
+  {
+    FileDialog fileDialog = new FileDialog(this, "Save Sim", FileDialog.SAVE);
+    fileDialog.show();
+    String SaveFile = fileDialog.getFile();
+  }
+
+  public void Quit_Action(ActionEvent event)
+  {
+    System.exit(0);
+  }
+
+  public void Close_Action(ActionEvent event)
+  {
+    this.dispose();
+  }
+
+  public void SimSetup_Action(ActionEvent event)
+  {
+    setSimSetup ss = new setSimSetup();
+  }
+
+  public void Map_Action(ActionEvent event)
+  {
+    setMap map = new setMap();
+  }
+
+  public void Time_Action(ActionEvent event)
+  {
+    setTime t = new setTime();
+  }
+
+  public void Statistics_Action(ActionEvent event)
+  {
+    setStatistics stat = new setStatistics();
+  }
+
+  public void Power_Action(ActionEvent event)
+  {
+    setPower p = new setPower();
+  }
+
+  public void Propagation_Action(ActionEvent event)
+  {
+     setPropagation prop = new setPropagation();
+  }
+
+  public void Resource_Action(ActionEvent event)
+  {
+    setResource r = new setResource();
+  }
+
+  public void Grid_Action(ActionEvent event)
+  {
+    setGrid g = new setGrid();
+  }
+
+  public void RadioChannel_Action(ActionEvent event)
+  {
+    setRadioChannel rad = new setRadioChannel();
+  }
+
+
+
+  class ActionListener1 implements ActionListener
+  {
+    public void actionPerformed(ActionEvent event)
+    {
+      String str = event.getActionCommand();
+      if (str.equals("New"))
+	New_Action(event);
+      else if (str.equals("Open"))
+  Open_Action(event);
+      else if (str.equals("Quit"))
+ 	Quit_Action(event);
+      else if (str.equals("Close"))
+ 	Close_Action(event);
+      else if (str.equals("Save"))
+	Save_Action(event);
+      else if (str.equals("SimSetup"))
+ 	SimSetup_Action(event);
+      else if (str.equals("Map"))
+ 	Map_Action(event);
+      else if (str.equals("Time"))
+ 	Time_Action(event);
+      else if (str.equals("Statistics"))
+ 	Statistics_Action(event);
+      else if (str.equals("Power"))
+ 	Power_Action(event);
+      else if (str.equals("Propagation"))
+ 	Propagation_Action(event);
+      else if (str.equals("Resource"))
+ 	Resource_Action(event);
+      else if (str.equals("Grid"))
+ 	Grid_Action(event);
+      else if (str.equals("RadioChannel"))
+ 	RadioChannel_Action(event);
+    }
+  }
+  
+  Panel panelpic = new Panel();  
+  
+  public M() 
+  {
+    image = getToolkit().getImage("martinibk.jpg");
+
+    setLayout(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+
+    Panel panelbut = new Panel();
+
+    gbc.gridwidth = GridBagConstraints.REMAINDER;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.weightx = 1.0;
+    
+    add(panelbut, gbc);
+
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.weighty = 1.0;
+  
+    PicturePerfect pp = new PicturePerfect();
+    add(pp, gbc);
+      
+      
+    Button Quit = new Button(" - Quit - ");
+    Button Start = new Button(" - Start - ");
+    Button help = new Button(" - Help - ");
+    Button about = new Button(" - About - ");
+    Button setdef = new Button(" - Set Defaults - ");
+
+    Font    font = new Font ("Times", Font.BOLD, 14);
+    Color   numberColor = new Color (50, 200, 255);
+    Color   equalsColor = new Color (120, 160, 170);
+    setFont (font);
+
+    panelbut.add(Start);
+    Start.setBackground(numberColor);
+    Start.addActionListener(this);
+
+    panelbut.add(setdef);
+    setdef.setBackground(equalsColor);
+    setdef.addActionListener(this);
+
+    panelbut.add(help);
+    help.setBackground(equalsColor);
+    help.addActionListener(this);
+
+    panelbut.add(about);
+    about.setBackground(equalsColor);
+    about.addActionListener(this);
+
+    panelbut.add(Quit);
+    Quit.setBackground(numberColor);
+    Quit.addActionListener(this);
+    
+    
+        
+    setTitle ("MaRTIni");
+    
+    setBackground(Color.white);
+    
+    MenuBar menuBar = new MenuBar();
+    Menu fileMenu = new Menu(" File ");
+    fileMenu.add(new MenuItem("New"));
+    fileMenu.add(new MenuItem("Open"));
+    fileMenu.add(new MenuItem("Save"));   
+    fileMenu.add(new MenuItem("Close"));
+    fileMenu.add(new MenuItem("-"));
+    fileMenu.add(new MenuItem("Quit"));
+    menuBar.add (fileMenu);
+    
+    Menu editMenu = new Menu(" Simulation ", true);
+    editMenu.add(new MenuItem("SimSetup"));
+    editMenu.add(new MenuItem("Map"));
+    editMenu.add(new MenuItem("Time"));
+    editMenu.add(new MenuItem("Speed"));
+    editMenu.add(new MenuItem("Statistics"));
+    editMenu.add(new MenuItem("Power"));
+    editMenu.add(new MenuItem("Propagation"));
+    editMenu.add(new MenuItem("Resource"));
+    editMenu.add(new MenuItem("Grid"));
+    editMenu.add(new MenuItem("RadioChannel"));
+    editMenu.add(new MenuItem("-"));
+    editMenu.add(new MenuItem("Clear"));
+    menuBar.add (editMenu);
+    setMenuBar (menuBar);
+
+
+    WindowListener1 lWindow = new WindowListener1();
+    addWindowListener(lWindow);
+    
+    ActionListener1 lAction = new ActionListener1();
+    fileMenu.addActionListener(lAction);
+    editMenu.addActionListener(lAction);
+    
+    setSize (646, 540);
+    setResizable(false);
+    show ();
+  }
+
+  public void actionPerformed(ActionEvent event)
+  {
+    
+    if(event.getActionCommand() == " - Quit - ")
+      {
+	System.exit(0);
+      }
+    
+    if(event.getActionCommand() == " - Start - ")
+      {
+	setBackground(Color.red);
+      }
+
+    if(event.getActionCommand() == " - Help - ")
+      {
+	setBackground(Color.blue);
+      }
+    
+    if(event.getActionCommand() == " - About - ")
+      {
+	setBackground(Color.white);
+      }
+    
+    if(event.getActionCommand() == " - Set Defaults - ")
+      {
+	setBackground(Color.green);
+      }
+  }
+
+  
+  
+  class WindowListener1 extends WindowAdapter
+  {
+    public void windowClosing(WindowEvent event)
+    {
+      Window win = event.getWindow();
+      win.setVisible(false);
+      win.dispose();
+      System.exit(0);
+    }
+  }
+
+  class PicturePerfect extends Component
+  {
+    public void paint(Graphics g) 
+    {
+      g = /*panelpic.*/getGraphics();
+      g.drawImage(image ,0 ,0 , this);
+      Dimension d = /*panelpic.*/getSize();
+      g.drawRect(0 ,0 ,d.width-1, d.height-1);
+    } 
+  }
+  
+  /**
+   * The main method allows this class to be run as an application
+   * @param args - command-line arguments
+   */
+  public static void main (String args[]) 
+  {  
+    M m = new M ();
+  }
+
+  Image image;
+  
+  /* public void paint(Graphics g) 
+  {
+    g = panelpic.getGraphics();
+    g.drawImage(image ,0 ,0 , this);
+    Dimension d = panelpic.getSize();
+    g.drawRect(0 ,0 ,d.width-1, d.height-1);
+  }*/
+  
+}
+
+
+
+
